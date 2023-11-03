@@ -112,8 +112,9 @@
     'Lunch': 'Everyone eats. What do we want to make for lunch? Do you want to help?',
     'Potty': 'Everybody goes potty. Time to pull down our pants and try to go',
     'Nap Time': 'We had so much fun this morning. Time to take a cozy nap',
+    'Cooking': 'Lets make something yummy!',
     'Snack': 'Chips, pretzels, crackers, what do you want for your snack?',
-    'Dinner': 'Chips, pretzels, crackers, what do you want for your snack?',
+    'Dinner': 'Mommy, Daddy and baby brother are all going to eat dinner together!',
     'Cleanup': 'The floor is a mess! Lets put our toys away so we have space to play tomorrow!',
     'Bed Time': 'Today was so fun. Get some rest and we will do more fun things tomorrow!',
 };
@@ -131,6 +132,7 @@ const activityImg = {
     'Lunch': 'https://cdn.discordapp.com/attachments/1149041360356257814/1169512255549870080/fpteam_70008_Minimalist_UI_illustration_of_a_3_year_old_boy_sit_e3ee182f-d987-4fdd-ac83-46d6e4cb202e.png?ex=6555ac2a&is=6543372a&hm=c75164bc16a8c706535264c883d99c3437db005dc97ffc36861f30380357542b&',
     'Potty': 'https://cdn.discordapp.com/attachments/1149041360356257814/1169516301459398706/fpteam_70008_Minimalist_UI_illustration_of_a_3_year_old_boy_sta_5572c8ff-7738-4e1e-8ee0-7df7a8435534.png?ex=6555afee&is=65433aee&hm=7ac0037a21d698c97ffdfa71b4c24909d61546506ce98af58f2b0558d4620e24&',
     'Nap Time': 'https://cdn.discordapp.com/attachments/1149041360356257814/1169522629896573048/fpteam_70008_Minimalist_UI_illustration_of_a_little_boy_taking__afb33811-982e-4fea-a3e3-bbebab9a2f6a.png?ex=6555b5d3&is=654340d3&hm=e2f6f2e9bb4acec8f28429c08df3a3739afc46e8841cefa4e2809832a1087020&',
+    'Cooking': 'https://cdn.discordapp.com/attachments/1149041360356257814/1170017099209523281/fpteam_70008_Minimalist_UI_illustration_of_a_little_boy_sitting_26a392cd-be93-4a5d-8205-37a76fd17979.png?ex=65578256&is=65450d56&hm=f871efa85369d91a957ec20fce78aca45d08595ad912217fd5cbf2a7b41d8c0b&',
     'Snack': 'https://cdn.discordapp.com/attachments/1149041360356257814/1169512166651592725/fpteam_70008_Minimalist_UI_illustration_of_a_3_year_old_boy_sit_39b03c74-c2d1-403c-90a3-640e660be62d.png?ex=6555ac15&is=65433715&hm=6e0f50a2e1535b1f74a344395c041c64627f8d3386f7a8c0df9dcbdd6e114630&',
     'Dinner': 'https://cdn.discordapp.com/attachments/1149041360356257814/1169512961954553946/fpteam_70008_Minimalist_UI_illustration_of_a_family_with_young__f3d8af09-b603-43de-bff7-2d0ec4d8416f.png?ex=6555acd2&is=654337d2&hm=f240966d3068a617fae87c221d8ef7c52a950cb7bb142dd9526dfb562f197da8&',
     'Cleanup': 'https://cdn.discordapp.com/attachments/1149041360356257814/1169523180080209930/fpteam_70008_Minimalist_UI_illustration_of_a_little_boy_sitting_f64b4416-d9d3-417b-945d-f8621bfc3fcb.png?ex=6555b656&is=65434156&hm=ed3f5b3c5feb6f99dd8cc140f3a287daa6af33129f3174e85022343e34f3540a&',
@@ -154,7 +156,7 @@ const activityImg = {
             <button class="btn btn-danger end-btn">End</button>
         `;
         
-        card.setAttribute('data-audio-src', 'treasure.mp3'); // REPLACE with actual path
+        card.setAttribute('data-audio-src', 'path-to-audio-file.mp3'); // REPLACE with actual path
 
         card.querySelector('img').addEventListener('click', () => {
             clearActiveCards();
@@ -201,7 +203,7 @@ const activityImg = {
     }
 
     // List of activities to display on page load
-    const activities = [ 'Exercise', 'Learning', 'Crafts', 'Outside', 'Puzzle/Game', 'Free Play','Book', 'Music', 'Show', 'Lunch', 'Potty', 'Nap Time', 'Snack', ,'Dinner', 'Cleanup', 'Bed Time'];
+    const activities = [ 'Exercise', 'Learning', 'Crafts', 'Outside', 'Puzzle/Game', 'Free Play','Book', 'Music', 'Show', 'Lunch', 'Potty', 'Nap Time', 'Cooking', 'Snack' ,'Dinner', 'Cleanup', 'Bed Time'];
 
     activities.forEach(activity => addActivityCard(activity));
 </script>
