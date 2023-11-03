@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toddler Scheduler</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f5f5f5;  /* This is a light gray color */
+        }
+
+        .activity-card {
+            border: 1px solid lightgray;
+            border-radius:  10px;
+            margin:  15px 0px;
+            cursor: pointer;
+            background-color: white;
+            transition: background-color 0.5s ease;
+        }
+        .activity-card:hover {
+            filter: drop-shadow(0px 5px 3px lightgray);
+            transition: filter 0.2s ease;
+        }
+
+        .countdown {
+            font-size:  24px;
+        }
+
+        .activity-card.active-card {
+            background-color: #C2E6B9;
+            border: 1px solid forestgreen;
+            filter: drop-shadow(0px 0px 0px lightgray);
+        }
+
+        .activity-card.finished {
+            background-color: #f1807e;
+        }
+
+        .action-message {
+            font-size:  16px;
+        }
+
+        img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            margin: 0 auto;
+            background-color: gray;
+        }
+
+        button {
+            margin: 7px 0px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-5">
+    <h1>Jonah's Daily Activities!</h1>
+    <div class="row"></div>
+</div>
+
+<script>
+    let currentTimer = null;
+    let currentTimerInterval = null;
+
+    function clearActiveCards() {
+        let cards = document.querySelectorAll('.activity-card');
+        cards.forEach(card => card.classList.remove('active-card'));
+    }
+
+    function startTimer(card, timeInSeconds) {
+        if (currentTimerInterval) clearInterval(currentTimerInterval);
+
+        currentTimer = timeInSeconds;
+        updateDisplay(card);
+
+        currentTimerInterval = setInterval(() => {
+            currentTimer--;
+
+            if (currentTimer <= 0) {
+                clearInterval(currentTimerInterval);
+                let audio = new Audio(card.getAttribute('data-audio-src'));
+                audio.play();
+                card.classList.remove('active-card');
+                card.classList.add('finished');
+            }
+
+            updateDisplay(card);
+        }, 1000);
+    }
+
+    function updateDisplay(card) {
+        let hours = Math.floor(currentTimer / 3600);
+        let minutes = Math.floor((currentTimer - (hours * 3600)) / 60);
+        let seconds = currentTimer - (hours * 3600) - (minutes * 60);
+
+        card.querySelector('.countdown').innerText = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    }
+
+    const activityDescriptions = {
+    'Exercise': 'Exercise is a fun way to start our day! Pushups! Jumping jacks! Lets move!',
+    'Learning': 'Time to learn something new, what do we want to learn about today?',
+    'Crafts': 'Paper, glue, scissors, stickers...what do we want to make today?',
+    'Outside': 'Is it nice out? Soccer, playground, what do we want to do outside?',
+    'Puzzle/Game': 'Puzzles, blocks, building, scavenger hunt, what do we want to build?',
+    'Free Play': 'You can do anything! What do you want to play with?',
+    'Book': 'Find a good book from your book shelf. What do you want to read?',
+    'Music': 'Drums, piano, guitar, or we can listen to music!',
+    'Show': 'Relax on the couch! Lets watch a show or movie!',
+    'Lunch': 'Everyone eats. What do we want to make for lunch? Do you want to help?',
+    'Potty': 'Everybody goes potty. Time to pull down our pants and try to go',
+    'Nap Time': 'We had so much fun this morning. Time to take a cozy nap',
+    'Snack': 'Chips, pretzels, crackers, what do you want for your snack?',
+    'Dinner': 'Chips, pretzels, crackers, what do you want for your snack?',
+    'Cleanup': 'The floor is a mess! Lets put our toys away so we have space to play tomorrow!',
+    'Bed Time': 'Today was so fun. Get some rest and we will do more fun things tomorrow!',
+};
+
+const activityImg = {
+    'Exercise': 'https://cdn.discordapp.com/attachments/1149041360356257814/1169517768266227774/fpteam_70008_Minimalist_UI_illustration_of_a_3_year_old_boy_wea_7435febe-7dc7-421b-87cb-b7ec2c761c59.png?ex=6555b14c&is=65433c4c&hm=62f3ababe4c00796fb900b359479995de786cdbfcab1e66cab85765bfa385296&',
+    'Learning': 'https://cdn.discordapp.com/attachments/1149041360356257814/1169520921011306557/fpteam_70008_Minimalist_UI_illustration_of_a_little_boy_looking_de13bcfe-cc76-474a-a71d-ae6b4b4d0a3b.png?ex=6555b43c&is=65433f3c&hm=6199865a0ff7b2be36560b85e2a1ff11a94019078442c633e044005047dfac6a&',
+    'Crafts': 'https://cdn.discordapp.com/attachments/1149041360356257814/1169517404209041468/fpteam_70008_Minimalist_UI_illustration_of_a_3_year_old_boy_pai_e20fbab5-577b-4d89-b91f-4352745ac49d.png?ex=6555b0f5&is=65433bf5&hm=9641e7cea8f3203969ab68bec477db9bc9645e207911302a0a0f910af9273628&',
+    'Outside': 'https://cdn.discordapp.com/attachments/1149041360356257814/1169509825709879367/fpteam_70008_Minimalist_UI_illustration_of_a_3_year_old_boy_jum_ac32a567-efdc-4ec4-bfef-155117e116b9.png?ex=6555a9e6&is=654334e6&hm=d67f44ab5c103e871c9b722786b147ab099a74c3eb1c50370b4534a0197cf5ca&',
+    'Puzzle/Game': 'https://cdn.discordapp.com/attachments/1149041360356257814/1169521668675350559/fpteam_70008_Minimalist_UI_illustration_of_a_little_boy_doing_a_21f6ad71-8417-4bbc-a34f-07770cdbd282.png?ex=6555b4ee&is=65433fee&hm=310950d790e27304561bd194750ba12d13c8cda704bf162162dffc095f675ff9&',
+    'Free Play': 'https://cdn.discordapp.com/attachments/1149041360356257814/1169510159068962916/fpteam_70008_Minimalist_UI_illustration_of_a_3_year_old_boy_pla_bc84ccc4-0d65-4ec8-8a4b-58762509a00b.png?ex=6555aa36&is=65433536&hm=9b2a8d01e57d4468ffce1ab8b8674c013582b7793fae6d932a53fe7c5c28b3f7&',
+    'Book': 'https://cdn.discordapp.com/attachments/1149041360356257814/1169518758843387985/fpteam_70008_Minimalist_UI_illustration_of_a_3_year_old_boy_sit_cc6c4624-7540-415c-990e-61c8a30fe974.png?ex=6555b238&is=65433d38&hm=3fba9f9cf5764b2fa37e1bf70a45a320c05ed03cff9cada0e592f9e47fa33178&',
+    'Music': 'https://cdn.discordapp.com/attachments/1149041360356257814/1169513994189557820/fpteam_70008_Minimalist_UI_illustration_of_a_3_year_old_boy_pla_854a8ec7-ccf0-44f0-a29b-e76652c1b809.png?ex=6555adc8&is=654338c8&hm=5f7c99b6e4cec91c6cfb9694dfc95140a6e3f8fdc44c9b5b0f3b8cc3986c25bd&',
+    'Show': 'https://cdn.discordapp.com/attachments/1149041360356257814/1169520229475434536/fpteam_70008_Minimalist_UI_illustration_of_a_little_boy_sitting_0d5f3fb8-c7ec-4b68-9e95-199d8bd7d040.png?ex=6555b397&is=65433e97&hm=5e4616c6e596dfa2a3071294b789c74ff8eb3a111d251d4d555fbc4646d85dbb&',
+    'Lunch': 'https://cdn.discordapp.com/attachments/1149041360356257814/1169512255549870080/fpteam_70008_Minimalist_UI_illustration_of_a_3_year_old_boy_sit_e3ee182f-d987-4fdd-ac83-46d6e4cb202e.png?ex=6555ac2a&is=6543372a&hm=c75164bc16a8c706535264c883d99c3437db005dc97ffc36861f30380357542b&',
+    'Potty': 'https://cdn.discordapp.com/attachments/1149041360356257814/1169516301459398706/fpteam_70008_Minimalist_UI_illustration_of_a_3_year_old_boy_sta_5572c8ff-7738-4e1e-8ee0-7df7a8435534.png?ex=6555afee&is=65433aee&hm=7ac0037a21d698c97ffdfa71b4c24909d61546506ce98af58f2b0558d4620e24&',
+    'Nap Time': 'https://cdn.discordapp.com/attachments/1149041360356257814/1169522629896573048/fpteam_70008_Minimalist_UI_illustration_of_a_little_boy_taking__afb33811-982e-4fea-a3e3-bbebab9a2f6a.png?ex=6555b5d3&is=654340d3&hm=e2f6f2e9bb4acec8f28429c08df3a3739afc46e8841cefa4e2809832a1087020&',
+    'Snack': 'https://cdn.discordapp.com/attachments/1149041360356257814/1169512166651592725/fpteam_70008_Minimalist_UI_illustration_of_a_3_year_old_boy_sit_39b03c74-c2d1-403c-90a3-640e660be62d.png?ex=6555ac15&is=65433715&hm=6e0f50a2e1535b1f74a344395c041c64627f8d3386f7a8c0df9dcbdd6e114630&',
+    'Dinner': 'https://cdn.discordapp.com/attachments/1149041360356257814/1169512961954553946/fpteam_70008_Minimalist_UI_illustration_of_a_family_with_young__f3d8af09-b603-43de-bff7-2d0ec4d8416f.png?ex=6555acd2&is=654337d2&hm=f240966d3068a617fae87c221d8ef7c52a950cb7bb142dd9526dfb562f197da8&',
+    'Cleanup': 'https://cdn.discordapp.com/attachments/1149041360356257814/1169523180080209930/fpteam_70008_Minimalist_UI_illustration_of_a_little_boy_sitting_f64b4416-d9d3-417b-945d-f8621bfc3fcb.png?ex=6555b656&is=65434156&hm=ed3f5b3c5feb6f99dd8cc140f3a287daa6af33129f3174e85022343e34f3540a&',
+    'Bed Time': 'https://cdn.discordapp.com/attachments/1149041360356257814/1169521548336566282/fpteam_70008_Minimalist_UI_illustration_of_a_little_boy_sleepin_9a47fe62-f77d-4d25-b42f-e031fd8e1723.png?ex=6555b4d1&is=65433fd1&hm=2427e2ab0e0c134267b47b3262d9df8e8949c5989dd9c54070a5b94163715fe2&',
+};
+
+    function addActivityCard(activity) {
+        let col = document.createElement('div');
+        col.className = 'col-md-4';
+
+        let card = document.createElement('div');
+        card.className = 'activity-card p-3';
+        card.innerHTML = `
+            <h5>${activity}</h5>
+            <img src="${activityImg[activity]}">
+            <p>${activityDescriptions[activity]}</p>
+            <p class="countdown">00:00:00 <span class="action-message"> </span></p>
+            <button class="btn btn-primary start-btn">Start</button>
+            <button class="btn btn-secondary pause-btn">Pause</button>
+            <button class="btn btn-warning add-time-btn">Add 5 mins</button>
+            <button class="btn btn-danger end-btn">End</button>
+        `;
+        
+        card.setAttribute('data-audio-src', 'path-to-audio-file.mp3'); // REPLACE with actual path
+
+        card.querySelector('img').addEventListener('click', () => {
+            clearActiveCards();
+            card.classList.toggle('active-card');
+            let audio = new Audio(card.getAttribute('data-audio-src'));
+            audio.play();
+        });
+
+        card.addEventListener('click', (e) => {
+            if (e.target === card) {
+                clearActiveCards();
+                card.classList.toggle('active-card');
+                let audio = new Audio(card.getAttribute('data-audio-src'));
+                audio.play();
+            }
+        });
+
+        card.querySelector('.start-btn').addEventListener('click', () => {
+            let timeInSeconds = 5 * 60;
+            startTimer(card, timeInSeconds);
+            card.querySelector('.action-message').innerText = `${activity} started`;
+        });
+
+        card.querySelector('.pause-btn').addEventListener('click', () => {
+            if (currentTimerInterval) clearInterval(currentTimerInterval);
+            card.querySelector('.action-message').innerText = `${activity} is paused`;
+        });
+
+        card.querySelector('.add-time-btn').addEventListener('click', () => {
+            if (currentTimer !== null) {
+                currentTimer += 5 * 60;
+            }
+            card.querySelector('.action-message').innerText = "5 minutes added";
+        });
+
+        card.querySelector('.end-btn').addEventListener('click', () => {
+            if (currentTimerInterval) clearInterval(currentTimerInterval);
+            card.querySelector('.countdown').innerText = "00:00:00";
+            card.querySelector('.action-message').innerText = `${activity} ended`;
+        });
+
+        col.appendChild(card);
+        document.querySelector('.row').appendChild(col);
+    }
+
+    // List of activities to display on page load
+    const activities = [ 'Exercise', 'Learning', 'Crafts', 'Outside', 'Puzzle/Game', 'Free Play','Book', 'Music', 'Show', 'Lunch', 'Potty', 'Nap Time', 'Snack', ,'Dinner', 'Cleanup', 'Bed Time'];
+
+    activities.forEach(activity => addActivityCard(activity));
+</script>
+</body>
+</html>
